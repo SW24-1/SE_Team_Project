@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="wiki_design.css" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: #34495e; /* 배경색 변경 */
+            flex-direction: column;
+            align-items: center;
+        }
+        .edit-document-form {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            background-color: #FFFFFF; /* 폼 배경색 추가 */
+            padding: 20px;
+            border-radius: 8px; /* 폼 둥근 모서리 추가 */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 그림자 효과 추가 */
+        }
+        .form-field {
+            margin-bottom: 20px;
+        }
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-field input, .form-field textarea, .form-field button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-field input:focus, .form-field textarea:focus {
+            border-color: #007BFF; /* 초점 색상 변경 */
+        }
+        .form-field textarea {
+            height: 200px;
+        }
+        .submit-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF; /* 버튼 색상 변경 */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* 전환 효과 추가 */
+        }
+        .submit-button:hover {
+            background-color: #0056b3; /* 호버 색상 변경 */
+        }
+        .file-upload {
+            margin-bottom: 20px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="edit-document-form">
+    <h1>Edit Document</h1>
+    <div class="form-field">
+        <label for="document-title">Title</label>
+        <input type="text" id="document-title" placeholder="Document Title">
+    </div>
+    <div class="form-field">
+        <label for="document-content">Content</label>
+        <textarea id="document-content" placeholder="Write your content here..."></textarea>
+    </div>
+    <div class="form-field file-upload">
+        <label for="file-input">Attach Files/Images</label>
+        <input type="file" id="file-input" multiple>
+    </div>
+    <div id="file-list"></div>
+    <button class="submit-button" onclick="saveDocument()">Save Changes</button>
+</div>
+<script>
+    function loadDocument() {
+        const title = localStorage.getItem('documentTitle');
+        const content = localStorage.getItem('documentContent');
+        if (title && content) {
+            document.getElementById('document-title').value = title;
+            document.getElementById('document-content').value = content;
+        } else {
+            alert('No document found to edit.');
+        }
+    }
+
+    function saveDocument() {
+        const title = document.getElementById('document-title').value;
+        const content = document.getElementById('document-content').value;
+        if (title && content) {
+            localStorage.setItem('documentTitle', title);
+            localStorage.setItem('documentContent', content);
+            alert('Document updated successfully!');
+        } else {
+            alert('Please fill in all the fields.');
+        }
+    }
+
+    document.getElementById('file-input').addEventListener('change', function() {
+        const fileList = document.getElementById('file-list');
+        fileList.innerHTML = ''; // Clear existing files list
+        for (let i = 0; i < this.files.length; i++) {
+            const file = this.files[i];
+            const fileItem = document.createElement('div');
+            fileItem.textContent = file.name;
+            fileList.appendChild(fileItem);
+        }
+    });
+
+    window.onload = loadDocument;
+</script>
+</body>
+</html>
