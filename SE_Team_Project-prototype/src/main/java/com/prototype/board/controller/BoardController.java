@@ -19,26 +19,6 @@ import java.util.List;
 public class BoardController {
     private final BoardService boardService;
 
-    @GetMapping("/save")
-    public String save() {
-        return "save";
-    }
-
-    @PostMapping("/save")
-    public String save(BoardDTO boardDTO) {
-        System.out.println("boardDTO = " + boardDTO);
-        boardService.save(boardDTO);
-        return "index";
-    }
-
-    @GetMapping("/list")
-    public String findAll(Model model) {
-        List<BoardDTO> boardDTOList = boardService.findAll();
-        model.addAttribute("boardList", boardDTOList);
-        System.out.println("boardDTOList = " + boardDTOList);
-        return "list";
-    }
-
     // /10, /1
     @GetMapping("/{id}")
     public String findById(@PathVariable("id") Long id, Model model) {
@@ -51,4 +31,25 @@ public class BoardController {
         return "detail";
     }
 
+    @GetMapping({"/dashboard","/bug_submit"})
+    public String bug_submit(Model model) {
+        return "bug_submit";
+    }
+    @GetMapping({"/bug_search","/dashboard"})
+    public String bug_search(Model model) {
+        return "bug_search";
+    }
+    @GetMapping({"/wiki"})
+    public String document_create(Model model) {
+        return "document_create";
+    }
+
+    @GetMapping({"/wiki"})
+    public String edit_document(Model model) {
+        return "edit_document";
+    }
+
 }
+
+
+
