@@ -1,0 +1,56 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background-color: #34495e; /* 배경색 변경 */
+    flex-direction: column;
+    align-items: center;
+}
+.edit-document-form {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    background-color: #FFFFFF; /* 폼 배경색 추가 */
+    padding: 20px;
+    border-radius: 8px; /* 폼 둥근 모서리 추가 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 그림자 효과 추가 */
+}
+.form-field {
+    margin-bottom: 20px;
+}
+.form-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.form-field input, .form-field textarea, .form-field button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.form-field input:focus, .form-field textarea:focus {
+    border-color: #007BFF; /* 초점 색상 변경 */
+}
+.form-field textarea {
+    height: 200px;
+}
+.submit-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF; /* 버튼 색상 변경 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* 전환 효과 추가 */
+}
+.submit-button:hover {
+    background-color: #0056b3; /* 호버 색상 변경 */
+}
+.file-upload {
+    margin-bottom: 20px;
+}
