@@ -95,24 +95,24 @@
     </div>
     <div class="dashboard-content">
         <h1>Submit a Bug Report</h1>
-        <form ><!--th:method="post"--> <!--th:action="|@{/bug_submit}|"--> <!--th:object="${issueRequest}"-->
+        <form th:method="post" th:action="|@{/bug_submit}|" th:object="${issueRequest}">
             <div class="form-group">
                 <label th:for="title">Title:</label>
-                <input type="text" id="title" name="title"  required><!--th:field="*{title}"-->
+                <input type="text" id="title" name="title" th:field="*{title}" required>
             </div>
             <div class="form-group">
                 <label th:for="priority">priority</label>
-                <select id="priority" name="priority" ><!--th:field="*{priority}"-->
-                    <option value="BLOCKER">BLOCKER</option>
-                    <option value="CRITICAL">CRITICAL</option>
-                    <option value="MAJOR">MAJOR</option>
-                    <option value="MINOR">MINOR</option>
-                    <option value="TRIVIAL">TRIVIAL</option>
+                <select id="priority" name="priority" th:field="*{priority}">
+                    <option value="0">BLOCKER</option>
+                    <option value="1">CRITICAL</option>
+                    <option value="2">MAJOR</option>
+                    <option value="3">MINOR</option>
+                    <option value="4">TRIVIAL</option>
                 </select>
             </div>
             <div class="form-group">
                 <label th:for="component">component:</label>
-                <textarea id="component" name="component" rows="5"  required><!--th:filed="*{component}"--></textarea>
+                <textarea id="component" name="component" rows="5" th:filed="*{component}" required></textarea>
             </div>
             <button type="submit">Submit</button>
         </form>

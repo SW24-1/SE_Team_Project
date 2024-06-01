@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -113,6 +114,14 @@
     <div class="dashboard-content">
         <div class="project-header">
             <div class="project-logo">P</div>
+        </div>
+        <div>
+            <h1><a th:href="|/${loginType}|">[[${pageName}]]</a></h1> <hr/>
+            <div>
+                <div th:text="|loginId : ${user.loginId}|"/>
+                <div th:text="|nickname : ${user.nickname}|"/>
+                <div th:text="|role : ${user.role}|"/>
+            </div>
         </div>
         <div class="project-summary">
             <h2>Bug Tracker</h2>
