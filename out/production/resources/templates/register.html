@@ -4,6 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="|${pageName}|"></title>
+    <style>
+        .error-class {
+            color: red;
+        }
+        .error-input {
+            border-color: red;
+        }
+    </style>
 </head>
 <body>
 <div>
@@ -34,17 +42,18 @@
             <div class="error-class" th:errors="*{nickname}"></div>
         </div>
         <br/>
+        <div>
+            <label th:for="role">Role : </label>
+            <select th:field="*{role}" th:errorclass="error-input">
+                <option value="0">ADMIN</option>
+                <option value="1">PL</option>
+                <option value="2">DEV</option>
+                <option value="3">TESTER</option>
+            </select>
+        </div>
+        <br/>
         <button type="submit">회원 가입</button>
     </form>
 </div>
 </body>
 </html>
-
-<style>
-.error-class {
-    color: red;
-}
-.error-input {
-    border-color: red;
-}
-</style>

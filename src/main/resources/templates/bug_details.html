@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bug Detail</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .galileo-design {
+            display: flex;
+        }
+        .sidebar {
+            width: 140px;
+            background-color: #2c3e50;
+            color: white;
+            height: 100vh;
+            padding: 20px;
+
+        }
+        .sidebar .menu-item a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .table tr:nth-child(even){background-color: #f2f2f2;}
+        .comment-form textarea {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .comment-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .comment-form button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="galileo-design">
+  <div class="sidebar">
+    <div class="menu-item"><a href="bug_search">Bug Search</a></div>
+  </div>
+  <div class="content">
+    <h2>Bug Details</h2>
+    <table class="table">
+      <tr><td>Number</td><td id="bugId" th:text="${detail.id}"></td></tr>
+      <tr><td>Title</td><td id="title" th:text="${detail.title}">Title Example</td></tr>
+      <tr><td>Status</td><td id="status" th:text="${detail.status}">Open</td></tr>
+      <tr><td>Priority</td><td id="priority" th:text="${detail.priority}">High</td></tr>
+      <tr><td>Reporter</td><td id="reporter" th:text="${detail.reporter}">Reporter</td></tr>
+      <tr><td>Handler</td><td id="handler" th:text="${detail.handler}">handler</td></tr>
+      <tr><td>CreateAt</td><td id="createAt" th:text="${detail.createAt}">createAt</td></tr>
+      <tr><td>CloseAt</td><td id="closeAt" th:text="${detail.closeAt}">closeAt</td></tr>
+
+    </table>
+    <h3>Comments</h3>
+    <div id="comments">
+      <!-- Comments will be dynamically added here -->
+      <p>Example comment.</p>
+    </div>
+    <div class="comment-form">
+      <textarea id="commentInput" placeholder="코멘트를 작성해주세요."></textarea><br>
+      <button onclick="addComment()">코멘트 추가</button>
+    </div>
+  </div>
+</div>
+<script>
+    function fetchBugDetails() {
+        const params = new URLSearchParams(window.location.search);
+        const bugId = params.get('id');
+        document.getElementById('bugId').innerText = bugId;
+    }
+
+    function addComment() {
+        const commentBox = document.getElementById('commentInput');
+        const commentText = commentBox.value.trim();
+
+        // 사용자 이름을 하드코딩, 실제 사용 시에는 이 부분을 동적으로 가져오는 로직으로 대체
+        const username = "사용자 1 ";  // 예시를 위한 하드코딩된 사용자 이름
+
+        if (commentText) {
+            const commentsContainer = document.getElementById('comments');
+            const newComment = document.createElement('p');
+
+            const now = new Date();
+            const dateTimeStr = now.getFullYear() + '-' +
+                (now.getMonth() + 1).toString().padStart(2, '0') + '-' +
+                now.getDate().toString().padStart(2, '0') + ' ' +
+                now.getHours().toString().padStart(2, '0') + ':' +
+                now.getMinutes().toString().padStart(2, '0');
+
+            // 사용자 이름도 코멘트와 함께 표시
+            newComment.innerText = username + ': ' + commentText + ' (' + dateTimeStr + ')';
+
+            commentsContainer.appendChild(newComment);
+            commentBox.value = ''; // Clear the input box after adding the comment
+        } else {
+            alert('코멘트를 입력해주세요.');
+        }
+    }
+
+    window.onload = fetchBugDetails;
+</script>
+
+</body>
+</html>

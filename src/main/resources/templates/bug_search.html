@@ -1,85 +1,113 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Galileo Bug Search</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            background-color: #f0f2f5;
-            color: #333;
+            background-color: #f7f7f7;
         }
+
         .galileo-design {
             display: flex;
-            width: 100%;
         }
-        .sidebar {
-            background-color: #2c3e50;
-            padding: 20px;
-            width: 250px;
-            color: #ecf0f1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-        }
-        .menu-item {
-            margin-bottom: 20px;
-            width: 100%;
-        }
-        .menu-item a {
-            text-decoration: none;
-            color: #ecf0f1;
-            font-weight: 700;
-            display: block;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-align: center;
-            transition: background-color 0.3s ease;
-        }
-        .menu-item a:hover {
-            background-color: #34495e;
-        }
-        .bug-search-content {
-            padding: 30px;
-            flex-grow: 1;
-            width: calc(140% - 10px);
 
+        .sidebar {
+            width: 200px;
+            background-color: #2c3e50;
+            height: 100vh;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
         }
-        .search-bar, .filter-bar, .sort-bar {
-            margin-bottom: 20px;
+
+        .menu-item a {
+            display: block;
+            padding: 15px;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid #2c3e50;
+            transition: background-color 0.3s;
         }
-        .bug-list {
-            list-style-type: none;
-            padding: 0;
+
+        .menu-item a:hover, .menu-item a:focus {
+            background-color: #34495e;
+            color: #ecf0f1;
         }
-        .bug-item {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            background-color: #fff;
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        table {
+            margin: auto;
+            width: 90%;
             border-radius: 5px;
+            border-collapse: collapse;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
         }
-        .bug-item:hover {
-            background-color: #f9f9f9;
+
+        .header {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
         }
-        .bug-details {
-            display: none;
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
+
+        .table td, .table th {
+            border-bottom: 1px solid #e1e1e1;
+            height: 30px;
+            font-size: 14px;
+            padding: 10px;
         }
-        .timestamp {
-            font-size: 0.8em;
-            color: gray;
+
+        .num {
+            width: 50px;
+        }
+
+        .title {
+            width: 500px;
+        }
+
+        .body {
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .body:hover {
+            background-color: #ecf0f1;
+        }
+
+        .body .title {
+            text-align: left;
+        }
+
+        button {
+            width: 120px;
+            height: 40px;
+            font-size: 15px;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            padding-left: 10px;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button:active {
+            background-color: #2471a3;
         }
     </style>
 </head>
@@ -87,167 +115,47 @@
 <div class="galileo-design">
     <div class="sidebar">
         <div class="menu-item">
-            <a href="dashboard">
-                <table><tr><td class="dashboard">Dashboard</td></tr></table>
-            </a>
+            <a href="dashboard">Dashboard</a>
         </div>
         <div class="menu-item">
-            <a href="bug_search">
-                <table><tr><td class="bug-search">Bug Search</td></tr></table>
-            </a>
+            <a href="bug_search">Bug Search</a>
         </div>
         <div class="menu-item">
-            <a href="settings">
-                <table><tr><td class="settings">Settings</td></tr></table>
-            </a>
+            <a href="settings">Settings</a>
         </div>
     </div>
-    <div class="bug-search-content">
-        <h1>Bug Search</h1>
-        <!-- Search Bar -->
-        <div class="search-bar">
-            <label for="search-input"></label><input type="text" id="search-input" placeholder="Search for bugs...">
-            <button onclick="searchBugs()">Search</button>
-        </div>
-        <!-- Filter Bar -->
-        <div class="filter-bar">
-            <select id="status-filter">
-                <option value="">Select Status</option>
-                <option value="open">Open</option>
-                <option value="in-progress">In Progress</option>
-                <option value="resolved">Resolved</option>
-            </select>
-            <select id="priority-filter">
-                <option value="">Select Priority</option>
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-            </select>
-        </div>
-        <!-- Sort Bar -->
-        <div class="sort-bar">
-            <select id="sort-order">
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
-            </select>
-        </div>
-        <!-- Bug List -->
-        <ul class="bug-list" id="bug-list">
-            <!-- Example Bug Item -->
-            <li class="bug-item" onclick="toggleDetails(this)">
-                <table>
-                    <tr>
-                        <td><strong>Bug Title</strong></td>
-                        <td>Status: Open</td>
-                        <td>Priority: High</td>
-                    </tr>
-                    <tr class="bug-details">
-                        <td colspan="3">
-                            <p>Bug Description: This is where the bug description goes.</p>
-                            <p>Reproduction Steps: This is where the reproduction steps go.</p>
-                        </td>
-                    </tr>
-                </table>
-            </li>
-        </ul>
+    <div class="content">
+        <table class="table">
+            <tr><td colspan="6"><h2>게시판</h2></td></tr>
+            <tr class="header">
+                <td class="num">번호</td>
+                <td class="title">제목</td>
+                <td>Status</td>
+                <td>Priority</td>
+                <td>Reporter</td>
+                <td>Handler</td>
+            </tr>
+            <tr th:each="issue : ${issue}" th:class="body" th:onclick="'goToDetail(' + ${issue.id} + ')'">
+                <td th:text="${issue.id}">번호</td>
+                <td class="title" th:text="${issue.title}">제목</td>
+                <td th:text="${issue.status}">Status</td>
+                <td th:text="${issue.priority}">Priority</td>
+                <td th:text="${issue.reporter}">Reporter</td>
+                <td th:text="${issue.handler}">Handler</td>
+            </tr>
+        </table>
+        <script>
+        function goToDetail(id) {
+            window.location.href = 'bug_details/' + id;
+        }
+        </script>
+        <br>
+        <table>
+            <tr>
+                <td><button onclick="location.href='bug_submit'">글쓰기</button></td>
+            </tr>
+        </table>
     </div>
 </div>
-</div>
-<script>
-    function searchBugs() {
-        // Implement search functionality
-        const searchInput = document.getElementById('search-input').value;
-        const statusFilter = document.getElementById('status-filter').value;
-        const priorityFilter = document.getElementById('priority-filter').value;
-        const sortOrder = document.getElementById('sort-order').value;
-        console.log('Search Term:', searchInput);
-        console.log('Status Filter:', statusFilter);
-        console.log('Priority Filter:', priorityFilter);
-        console.log('Sort Order:', sortOrder);
-        // Update the bug list based on the search results
-    }
-
-    function toggleDetails(element) {
-        const details = element.querySelector('.bug-details');
-        if (details.style.display === 'block') {
-            details.style.display = 'none';
-        } else {
-            details.style.display = 'block';
-        }
-    }document.addEventListener('DOMContentLoaded', function() {
-        fetchBugs().then(displayBugs);
-    });
-
-    function fetchBugs() {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve([
-                    {
-                        id: 1,
-                        title: "Example Bug 1",
-                        status: "Open",
-                        priority: "High",
-                        description: "This is a sample description for Example Bug 1.",
-                        reproduction: "Step 1: Do this. Step 2: Do that.",
-                        comments: [
-                            { text: "This bug is critical!", timestamp: "2023-05-01T12:00:00Z" },
-                            { text: "Any updates on this?", timestamp: "2023-05-02T15:00:00Z" }
-                        ],
-                        timestamp: "2023-05-01T10:00:00Z"
-                    }
-                ]);
-            }, 1000);
-        });
-    }
-
-    function displayBugs(bugs) {
-        const bugList = document.getElementById('bug-list');
-        bugs.forEach(bug => {
-            const li = document.createElement('li');
-            li.className = 'bug-item';
-            li.innerHTML = `
-                    <div class="bug-summary" onclick="toggleDetails(this.parentElement)">
-                        <strong>${bug.title}</strong>
-                        <span>Status: ${bug.status}</span>
-                        <span>Priority: ${bug.priority}</span>
-                        <span class="timestamp">${new Date(bug.timestamp).toLocaleString()}</span>
-                    </div>
-                    <div class="bug-details">
-                        <p>Bug Description: ${bug.description}</p>
-                        <p>Reproduction Steps: ${bug.reproduction}</p>
-                        <div class="comments">
-                            <h3>Comments</h3>
-                            <ul class="comment-list">
-                                ${bug.comments.map(comment => `
-                                    <li>
-                                        <span>${comment.text}</span>
-                                        <span class="timestamp">${new Date(comment.timestamp).toLocaleString()}</span>
-                                    </li>
-                                `).join('')}
-                            </ul>
-                            <input type="text" class="comment-input" placeholder="Add a comment...">
-                            <button onclick="addComment(this, ${bug.id})">Post Comment</button>
-                        </div>
-                    </div>
-                `;
-            bugList.appendChild(li);
-        });
-    }
-
-    function addComment(button, bugId) {
-        const input = button.previousElementSibling;
-        const commentText = input.value;
-        if (commentText.trim() !== '') {
-            const list = button.closest('.comments').querySelector('.comment-list');
-            const li = document.createElement('li');
-            li.innerHTML = `
-                    <span>${commentText}</span>
-                    <span class="timestamp">${new Date().toLocaleString()}</span>
-                `;
-            list.appendChild(li);
-            input.value = '';
-        }
-    }
-</script>
 </body>
 </html>
