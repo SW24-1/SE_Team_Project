@@ -25,6 +25,7 @@ public class HomeController {
             return "redirect:/login";
         }
         model.addAttribute("user", loginUser);
+        System.out.println("login user role : " + loginUser.getRole());
         return "dashboard";
     }
 

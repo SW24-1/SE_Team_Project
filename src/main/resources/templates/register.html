@@ -45,13 +45,11 @@
         <div>
             <label th:for="role">Role : </label>
             <select th:field="*{role}" th:errorclass="error-input">
-                <option value="" disabled selected>선택하세요</option>
-                <option value="ADMIN">ADMIN</option>
-                <option value="PL">PL</option>
-                <option value="DEV">DEV</option>
-                <option value="TESTER">TESTER</option>
+                <option value="0">ADMIN</option>
+                <option value="1">PL</option>
+                <option value="2">DEV</option>
+                <option value="3">TESTER</option>
             </select>
-            <div class="error-class" th:errors="*{role}"></div>
         </div>
         <br/>
         <button type="submit">회원 가입</button>
