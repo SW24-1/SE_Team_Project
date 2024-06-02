@@ -1,5 +1,5 @@
 package com.prototype.board.dto;
 
 public enum UserRole {
-    USER, ADMIN;
+    ADMIN, PL, DEV, TESTER;
 }

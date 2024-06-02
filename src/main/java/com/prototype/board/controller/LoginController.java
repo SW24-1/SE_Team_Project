@@ -97,7 +97,7 @@ public class LoginController {
         }
 
         if(bindingResult.hasErrors()) {
-            return "login";
+            return "index";
         }
 
         // 로그인 성공 => 쿠키 생성

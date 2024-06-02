@@ -51,6 +51,8 @@
         .bug-search-content {
             padding: 30px;
             flex-grow: 1;
+            width: calc(140% - 10px);
+
         }
         .search-bar, .filter-bar, .sort-bar {
             margin-bottom: 20px;
@@ -84,9 +86,21 @@
 <body>
 <div class="galileo-design">
     <div class="sidebar">
-        <div class="menu-item"> <a href="dashboard"><span class="dashboard"> Dashboard </span></a> </div>
-        <div class="menu-item"> <a href="bug_search"><span class="bug-search"> Bug Search </span></a> </div>
-        <div class="menu-item"> <a href="settings"><span class="settings"> Settings </span></a> </div>
+        <div class="menu-item">
+            <a href="dashboard">
+                <table><tr><td class="dashboard">Dashboard</td></tr></table>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a href="bug_search">
+                <table><tr><td class="bug-search">Bug Search</td></tr></table>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a href="settings">
+                <table><tr><td class="settings">Settings</td></tr></table>
+            </a>
+        </div>
     </div>
     <div class="bug-search-content">
         <h1>Bug Search</h1>
@@ -121,19 +135,23 @@
         <ul class="bug-list" id="bug-list">
             <!-- Example Bug Item -->
             <li class="bug-item" onclick="toggleDetails(this)">
-                <div class="bug-summary">
-                    <strong>Bug Title</strong>
-                    <span>Status: Open</span>
-                    <span>Priority: High</span>
-                </div>
-                <div class="bug-details">
-                    <p>Bug Description: This is where the bug description goes.</p>
-                    <p>Reproduction Steps: This is where the reproduction steps go.</p>
-                </div>
+                <table>
+                    <tr>
+                        <td><strong>Bug Title</strong></td>
+                        <td>Status: Open</td>
+                        <td>Priority: High</td>
+                    </tr>
+                    <tr class="bug-details">
+                        <td colspan="3">
+                            <p>Bug Description: This is where the bug description goes.</p>
+                            <p>Reproduction Steps: This is where the reproduction steps go.</p>
+                        </td>
+                    </tr>
+                </table>
             </li>
-            <!-- Additional bug items can be added here. -->
         </ul>
     </div>
+</div>
 </div>
 <script>
     function searchBugs() {

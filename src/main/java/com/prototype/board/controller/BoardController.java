@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class BoardController {
 
-    @GetMapping("/bug_submit")
-    public String bugSubmit(Model model) {
-        return "bug_submit";
-    }
-
     @GetMapping("/bug_search")
     public String bugSearch(Model model) {
         return "bug_search";
