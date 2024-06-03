@@ -2,6 +2,7 @@ package com.prototype.board.controller;
 
 import com.prototype.board.dto.IssueRequest;
 import com.prototype.board.dto.User;
+import com.prototype.board.dto.UserRole;
 import com.prototype.board.service.IssueService;
 import com.prototype.board.service.UserService;
 import jakarta.validation.Valid;
@@ -21,7 +22,13 @@ public class IssueController {
     private final UserService userService;
 
     @GetMapping("/bug_submit")
-    public String bugSubmitPage(Model model) {
+    public String bugSubmitPage(@CookieValue(name = "userId", required = false) Long userId, Model model) {
+        User loginUser = userService.getLoginUserById(userId);
+        if(loginUser.getRole() != UserRole.TESTER) {
+            model.addAttribute("message", "tester만 접근 권한이 있습니다.");
+            model.addAttribute("searchUrl", "/dashboard");
+            return "message";
+        }
         model.addAttribute("issueRequest", new IssueRequest());
         return "bug_submit";
     }
