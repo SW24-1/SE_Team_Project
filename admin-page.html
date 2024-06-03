@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input, select, button {
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Page</h1>
+    <form id="add-user-form">
+        <h2>Add User</h2>
+        <input type="text" id="user-name" placeholder="User Name" required>
+        <select id="user-role" required>
+            <option value="">Select Role</option>
+            <option value="PL">Project Lead</option>
+            <option value="Developer">Developer</option>
+            <option value="Tester">Tester</option>
+        </select>
+        <button type="submit">Add User</button>
+    </form>
+    <h2>User List</h2>
+    <ul id="user-list"></ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addUserForm = document.getElementById('add-user-form');
+            const userList = document.getElementById('user-list');
+
+            addUserForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const userName = document.getElementById('user-name').value;
+                const userRole = document.getElementById('user-role').value;
+
+                if (userName && userRole) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        ${userName} - ${userRole}
+                        <button onclick="showRoleSelect(this)">Change Role</button>
+                    `;
+                    userList.appendChild(li);
+
+                    // Clear the form
+                    addUserForm.reset();
+                } else {
+                    alert('Please enter a user name and select a role.');
+                }
+            });
+        });
+
+        function showRoleSelect(button) {
+            const li = button.parentNode;
+            const userName = li.textContent.split(' - ')[0].trim();
+            const currentRole = li.textContent.split(' - ')[1].trim().split(' ')[0];
+
+            li.innerHTML = `
+                ${userName} - 
+                <select class="role-select">
+                    <option value="PL" ${currentRole === 'PL' ? 'selected' : ''}>Project Lead</option>
+                    <option value="Developer" ${currentRole === 'Developer' ? 'selected' : ''}>Developer</option>
+                    <option value="Tester" ${currentRole === 'Tester' ? 'selected' : ''}>Tester</option>
+                </select>
+                <button onclick="changeRole(this)">Save</button>
+            `;
+        }
+
+        function changeRole(button) {
+            const li = button.parentNode;
+            const select = li.querySelector('.role-select');
+            const newRole = select.value;
+            const userName = li.textContent.split(' - ')[0].trim();
+
+            li.innerHTML = `
+                ${userName} - ${newRole}
+                <button onclick="showRoleSelect(this)">Change Role</button>
+            `;
+        }
+    </script>
+</body>
+</html>
