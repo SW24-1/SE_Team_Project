@@ -1,13 +1,12 @@
 package com.prototype.board.service;
 
-import com.prototype.board.dto.JoinRequest;
-import com.prototype.board.dto.LoginRequest;
-import com.prototype.board.dto.User;
+import com.prototype.board.dto.*;
 import com.prototype.board.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -108,5 +107,17 @@ public class UserService {
         if(optionalUser.isEmpty()) return null;
 
         return optionalUser.get();
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public void updateRole(UpdateRoleRequest req){
+        UserRole[] u = UserRole.values();
+        User user = userRepository.findByLoginId(req.getLoginId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + req.getLoginId()));
+        user.setRole(u[req.getRole()]);
+        userRepository.save(user);
     }
 }

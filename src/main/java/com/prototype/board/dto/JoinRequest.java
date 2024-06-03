@@ -30,7 +30,7 @@ public class JoinRequest {
     // 비밀번호 암호화 X
     public User toEntity() {
         UserRole[] u = UserRole.values();
-        System.out.println(this.loginId);
+        // System.out.println(this.passwordCheck);
         return User.builder()
                 .loginId(this.loginId)
                 .password(this.password)
