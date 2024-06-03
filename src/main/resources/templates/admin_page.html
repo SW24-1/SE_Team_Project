@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Page</title>
+  <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 20px;
+      }
+
+      h1 {
+          color: #333;
+      }
+
+      form {
+          margin-bottom: 20px;
+      }
+
+      input, select, button {
+          display: block;
+          margin-bottom: 10px;
+          padding: 10px;
+          width: 100%;
+      }
+
+      ul {
+          list-style: none;
+          padding: 0;
+      }
+
+      li {
+          margin-bottom: 10px;
+          padding: 10px;
+          border: 1px solid #ddd;
+      }
+  </style>
+</head>
+<body>
+<h1>Admin Page</h1>
+<form id="add-user-form" th:method="post" th:action="|@{/update_role}|" th:object="${updateRoleRequest}">
+  <h2>Add User</h2>
+  <input th:field="*{loginId}"  type="text" id="user-name" placeholder="User Name" required>
+  <select th:field="*{role}" required>
+    <option value="1">Project Lead</option>
+    <option value="2">Developer</option>
+    <option value="3">Tester</option>
+  </select>
+  <button type="submit">역할 변경</button>
+</form>
+<h2>User List</h2>
+<table class="table">
+  <tr><td colspan="6"><h2>사용자 목록</h2></td></tr>
+    <tr class="header">
+      <td class="num">사용자</td>
+      <td class="title">역할</td>
+    </tr>
+    <tr th:each="user : ${user}" th:class="body">
+      <td th:text="${user.loginId}">번호</td>
+      <td th:text="${user.role}">제목</td>
+    </tr>
+</table>
+</body>
+</html>
