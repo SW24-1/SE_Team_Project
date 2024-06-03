@@ -64,6 +64,9 @@
             const addUserForm = document.getElementById('add-user-form');
             const userList = document.getElementById('user-list');
 
+            // Load users from local storage
+            loadUsers();
+
             addUserForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const userName = document.getElementById('user-name').value;
@@ -76,6 +79,9 @@
                         <button onclick="showRoleSelect(this)">Change Role</button>
                     `;
                     userList.appendChild(li);
+
+                    // Save to local storage
+                    saveUsers();
 
                     // Clear the form
                     addUserForm.reset();
@@ -111,6 +117,33 @@
                 ${userName} - ${newRole}
                 <button onclick="showRoleSelect(this)">Change Role</button>
             `;
+
+            // Save to local storage
+            saveUsers();
+        }
+
+        function saveUsers() {
+            const userList = document.getElementById('user-list');
+            const users = [];
+            userList.querySelectorAll('li').forEach(li => {
+                const userName = li.childNodes[0].textContent.trim();
+                const userRole = li.childNodes[2].textContent.trim().split(' ')[0];
+                users.push({ name: userName, role: userRole });
+            });
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        function loadUsers() {
+            const userList = document.getElementById('user-list');
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    ${user.name} - ${user.role}
+                    <button onclick="showRoleSelect(this)">Change Role</button>
+                `;
+                userList.appendChild(li);
+            });
         }
     </script>
 </body>
